@@ -40,6 +40,7 @@
       buttonOk.TabIndex = 0;
       buttonOk.Text = "Ok";
       buttonOk.UseVisualStyleBackColor = true;
+      buttonOk.DialogResult = DialogResult.OK;
       // 
       // buttonCancel
       // 
@@ -49,6 +50,7 @@
       buttonCancel.TabIndex = 1;
       buttonCancel.Text = "Cancel";
       buttonCancel.UseVisualStyleBackColor = true;
+      buttonCancel.DialogResult = DialogResult.Cancel;
       // 
       // Form1
       // 
