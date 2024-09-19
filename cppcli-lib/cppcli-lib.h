@@ -1,10 +1,4 @@
 #pragma once
 
-using namespace System;
 
-namespace cppclilib {
-	public ref class Class1
-	{
-		// TODO: Add your methods for this class here.
-	};
-}
+DLL_CPPCLI_LIB_API bool ShowWinFormsDialog();

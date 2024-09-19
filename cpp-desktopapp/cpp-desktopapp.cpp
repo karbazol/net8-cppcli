@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "cpp-desktopapp.h"
+#include "cppcli-lib.h"
 
 #define MAX_LOADSTRING 100
 
@@ -132,7 +133,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+              ShowWinFormsDialog();
+              //  DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
