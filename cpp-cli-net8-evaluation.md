@@ -392,3 +392,5 @@ Konstruktion einer Instanz davon und Zuweisung an den Dialog, bevor dieser geöf
 ## Hinzufügen eines MFC-Projekt als zweiter Zugang
 
 Neues Projekt `cpp-mfcapp` aus der Vorlage *MFC App* mit minimalen Konfigurationseinstellungen. 
+Hinzufügen einer Abhängigkeit auf 'cppcli-lib'. Bei den Include-Verzeichnissen noch `../cppcli-lib` ergänzen und `DLL_CPPCLI_LIB_API` setzen auf `__declspec(dllimport)`.
+Dann kann anstelle des *About*-Dialogs auch von MFC aus der Windows Forms-Dialog angezeigt werden.  

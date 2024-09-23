@@ -8,7 +8,11 @@
 #include "afxdialogex.h"
 #include "cpp-mfcapp.h"
 #include "MainFrm.h"
+#include "cppcli-lib.h"
+#include <algorithm>
+#include <string>
 
+using namespace std;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -148,8 +152,16 @@ END_MESSAGE_MAP()
 // App command to run the dialog
 void CMFCApp::OnAppAbout()
 {
-	CAboutDlg aboutDlg;
-	aboutDlg.DoModal();
+	auto stringReverser = [](const std::wstring& str) -> std::wstring {
+		wstring result = str;
+
+		// Reverse the string using the reverse() function
+		std::reverse(result.begin(), result.end());
+
+		return result;
+	};
+
+	ShowWinFormsDialog(stringReverser);
 }
 
 // CMFCApp message handlers
