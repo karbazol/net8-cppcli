@@ -134,10 +134,12 @@
     <ClInclude Include="cpp-desktopapp.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="StringReverse.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpp-desktopapp.cpp" />
+    <ClCompile Include="StringReverse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="cpp-desktopapp.rc" />

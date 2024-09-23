@@ -327,3 +327,36 @@ bool ShowWinFormsDialog()
 Im `cpp-desktopapp`-Projekt bei den Include-Verzeichnissen noch `../cppcli-lib` ergänzen. Den Header `#include "cppcli-lib.h"` inkludieren und anstelle des About-Dialogs die Form aufrufen.
 Damit es kein unresolved external gibt, im Projekt `cppcli-lib` unter Linker / General / Ignore Import Library = No setzen..
 
+## Aufrufen eines nativ implementierten Interface
+
+### winforms-lib
+
+Neues Interface zum Umdrehen eines Textes:
+```C#
+public interface IStringReverser
+{
+  string Reverse(string str);
+}
+```
+
+WinForms-Dialog erhält eine TextBox und einen "Reverse"-Button, zudem eine Property vom Typ `IStringReverser`. Falls gesetzt, bewirkt ein Klick auf den "Reverse"-Button das Umdrehen des Textes in der Textbox:
+
+```C#
+  public IStringReverser StringReverser { get; set; }
+
+  private void mButtonReverse_Click(object sender, EventArgs e)
+  {
+    if (StringReverser != null)
+    {
+      mTextBox.Text = StringReverser.Reverse(mTextBox.Text);
+    }
+  }
+```
+
+### cpp-desktopapp
+
+Neue Funktion 
+```c++
+std::wstring ReverseString(const std::wstring &str);
+```
+
