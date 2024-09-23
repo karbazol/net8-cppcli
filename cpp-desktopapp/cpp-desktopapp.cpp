@@ -4,7 +4,7 @@
 #include "framework.h"
 #include "cpp-desktopapp.h"
 #include "cppcli-lib.h"
-
+#include "StringReverse.h"
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -133,7 +133,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_ABOUT:
-              ShowWinFormsDialog();
+              ShowWinFormsDialog(StringReverse);
               //  DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
             case IDM_EXIT:

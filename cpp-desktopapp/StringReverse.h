@@ -3,4 +3,4 @@
 
 #include <string>
 
-std::wstring ReverseString(const std::wstring& str);
+std::wstring StringReverse(const std::wstring& str);

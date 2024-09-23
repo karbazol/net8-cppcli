@@ -360,3 +360,27 @@ Neue Funktion
 std::wstring ReverseString(const std::wstring &str);
 ```
 
+### cppcli-lib
+Wrapper zur Erzeugung einer Implementierung von `IStringReverser` unter Verwendung der nativen Implementierung, die als 
+`std::function<std::wstring(const std::wstring&)>` hereingereicht wird:
+
+```C++
+ref class StringReverserWrapper : winforms_lib::IStringReverser
+{
+public:
+  StringReverserWrapper(std::function<std::wstring(const std::wstring&)>& stringReverser)
+    : mStringReverser(stringReverser)
+  {}
+
+  virtual System::String^ Reverse(System::String^ str)
+  {
+    std::wstring nativeString = marshal_as<std::wstring>(str);
+    std::wstring nativeStringReversed = mStringReverser(nativeString);
+    return marshal_as<System::String ^>(nativeStringReversed);
+  }
+
+  std::function<std::wstring(const std::wstring&)>& mStringReverser;
+};
+```
+
+Konstruktion einer Instanz davon und Zuweisung an den Dialog, bevor dieser geöffnet wird.
