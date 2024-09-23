@@ -388,3 +388,7 @@ public:
 ```
 
 Konstruktion einer Instanz davon und Zuweisung an den Dialog, bevor dieser geöffnet wird.
+
+## Hinzufügen eines MFC-Projekt als zweiter Zugang
+
+Neues Projekt `cpp-mfcapp` aus der Vorlage *MFC App* mit minimalen Konfigurationseinstellungen. 
