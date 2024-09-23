@@ -34,23 +34,25 @@
       // 
       // buttonOk
       // 
-      buttonOk.Location = new Point(618, 414);
+      buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+      buttonOk.DialogResult = DialogResult.OK;
+      buttonOk.Location = new Point(130, 163);
       buttonOk.Name = "buttonOk";
       buttonOk.Size = new Size(75, 23);
       buttonOk.TabIndex = 0;
       buttonOk.Text = "Ok";
       buttonOk.UseVisualStyleBackColor = true;
-      buttonOk.DialogResult = DialogResult.OK;
       // 
       // buttonCancel
       // 
-      buttonCancel.Location = new Point(713, 414);
+      buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+      buttonCancel.DialogResult = DialogResult.Cancel;
+      buttonCancel.Location = new Point(225, 163);
       buttonCancel.Name = "buttonCancel";
       buttonCancel.Size = new Size(75, 23);
       buttonCancel.TabIndex = 1;
       buttonCancel.Text = "Cancel";
       buttonCancel.UseVisualStyleBackColor = true;
-      buttonCancel.DialogResult = DialogResult.Cancel;
       // 
       // Form1
       // 
@@ -58,7 +60,7 @@
       AutoScaleDimensions = new SizeF(7F, 15F);
       AutoScaleMode = AutoScaleMode.Font;
       CancelButton = buttonCancel;
-      ClientSize = new Size(800, 450);
+      ClientSize = new Size(312, 199);
       Controls.Add(buttonCancel);
       Controls.Add(buttonOk);
       Name = "Form1";

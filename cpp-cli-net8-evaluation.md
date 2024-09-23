@@ -327,4 +327,3 @@ bool ShowWinFormsDialog()
 Im `cpp-desktopapp`-Projekt bei den Include-Verzeichnissen noch `../cppcli-lib` ergänzen. Den Header `#include "cppcli-lib.h"` inkludieren und anstelle des About-Dialogs die Form aufrufen.
 Damit es kein unresolved external gibt, im Projekt `cppcli-lib` unter Linker / General / Ignore Import Library = No setzen..
 
-ToDo : Ok-Button does not close the form.
