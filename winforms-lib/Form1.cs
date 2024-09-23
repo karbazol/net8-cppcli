@@ -18,7 +18,7 @@ namespace winforms_lib
       mTextBox.Text = "desserts";
     }
 
-    public IStringReverser StringReverser { get; set; }
+    public IStringReverser? StringReverser { get; set; }
 
     private void mButtonReverse_Click(object sender, EventArgs e)
     {
