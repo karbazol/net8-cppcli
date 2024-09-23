@@ -1,5 +1,9 @@
 SDK Version ist 8.0.302
 
+## Projekt-Struktur
+
+![Architektur](architecture.drawio.png)
+
 ## Projekt-Setup
 
 Möglichst viel mit der dotnet cli machen. CMake erstmal nicht.
