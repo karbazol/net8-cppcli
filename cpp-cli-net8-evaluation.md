@@ -1,25 +1,29 @@
 SDK Version ist 8.0.302
 
-## Projekt-Struktur
+## Goals
+* Evauluation: Is .NET 8 interoperable with native code (e.g. classic C++ and C++/CLI).
+* Highlight different interop scenarios, which should be as close as possible to those from VISUM and VISSIM.
 
-![Architektur](architecture.drawio.png)
+## Project Structure / Architecture
 
-## Projekt-Setup
+![architecture](architecture.drawio.png)
 
-Möglichst viel mit der dotnet cli machen. CMake erstmal nicht.
+## Project Setup
 
-Zunächst ein neues Verzeichnis anlegen und dort hineinwechseln:
+Try to use dotnet cli whenever possible. Don't use CMake for now.
+
+Create a new directory and make it current:
 ```bash
 mkdir net8-cppcli
 cd net8-cppcli
 ```
 
-Anlegen des WinForms-Bibliothek-Projekts `winforms-proj.csproj` im entsprechen Unterordner:
+Create a WinForms library project `winforms-lib.csproj` in an corresponding subdirectory:
 ```bash
 dotnet new winformslib -o winforms-lib
 ``` 
 
-Die Projektdatei hat folgenden Inhalt:
+This is the generated project file:
 ```xml 
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
@@ -33,16 +37,16 @@ Die Projektdatei hat folgenden Inhalt:
 </Project>
 ```
 
-Anlegen einer Solution und Hinzufügen des Projekts
-```
+Create a solution and add the project to it:
+```bash
 dotnet new solution -n net8-cppcli
 dotnet sln net8-cppcli.sln add winforms-lib/winforms-lib.csproj
 ```
 
-Öffnen mit Visual Studio
+Open solution in Visual Studio
 
-Hinzufügen einer c++/cli-Bibliothek `cppcli-lib` über die Projektvorlage `CLR Class Library (.NET)` (nicht `CLR Class Library (.NET Framework)`). Hinzufügen einer Referenz von `cppcli-proj` auf `winforms-proj`.
-Wesentliche Inhalte der c++/cli-Projektdatei:
+Add a  c++/cli library project `cppcli-lib` using the project template  `CLR Class Library (.NET)` (**not** `CLR Class Library (.NET Framework)`). Add a reference from `cppcli-lib` to `winforms-lib`.
+Some relevant parts of the generated project file:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -177,8 +181,8 @@ Wesentliche Inhalte der c++/cli-Projektdatei:
 </Project>
 ```
 
-Hinzufügen eines Win32-Projekts `cpp-desktopapp` über die Projektvorlage `Windows Desktop Application`. Hinzufügen einer Referenz von `cpp-desktopapp` auf `cppcli-lib`.
-Generierte Projektdatei:
+Add a  Win32-project `cpp-desktopapp` using the project template `Windows Desktop Application`. Add a reference from  `cpp-desktopapp` to `cppcli-lib`.
+This is the generated project file:
 
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -287,17 +291,17 @@ Generierte Projektdatei:
 </Project>
 ```
 
-Konfigurationsmatrix:
+We now have the following configuration matrix in our solution:
 
-winforms-lib: `Debug`, `Release` x `AnyCPU`
-cpp-clilib: `Debug`, `Release` x `x64`, `Win32`
-cpp-desktopapp: `Debug`, `Release` x `x64`, `Win32`
+winforms-lib: `Debug`, `Release` x `AnyCPU`  
+cpp-clilib: `Debug`, `Release` x `x64`, `Win32`  
+cpp-desktopapp: `Debug`, `Release` x `x64`, `Win32`  
 
-Solution: `Debug`, `Release` x `AnyCPU`, `x64`, `x86`   (`AnyCPU` mappt bei den cpp-Projekten auf `x64`)
+Solution: `Debug`, `Release` x `AnyCPU`, `x64`, `x86`   (`AnyCPU` mappt bei den cpp-Projekten auf `x64`)  
 
-## Anzeige eines Dialogs vom desktopapp-Projekt aus
+## Show a WinForms Dialog on behalf of project `cpp-desktopapp`
 
-Hinzufügen eines neuen Dialogs `Form1` mit `Ok`-Button und `Cancel`-Button im `winforms-lib`-Projekt. Verknüpfung der Form-Eigenschaften `buttonOk`, `buttonCancel` mit den beiden Buttons. 
+Add a new Windows Forms Dialog (e.g. a Form) `Form1` with *Ok*- and *Cancel*-Button und `Cancel`-Button to project `winforms-lib`-Projekt. Make the buttons close the dialog (e.g. set Form Properties `buttonOk`, `buttonCancel` and `DialogResult`-Properties of buttons). 
 
 ```C#
 namespace winforms_lib
@@ -309,13 +313,13 @@ namespace winforms_lib
 }  
 ```
 
-Hinzufügen einer Aufrufsmethode, um den Dialog anzuzeigen, im `cppcli-lib`-Projekt. Im Header kein c++/cli:
+Now add a function for showing the dialog to project `cppcli-lib`. Note that the header is classical c++:
 
 ```c++
 bool DLL_CPPCLI_LIB_API ShowWinFormsDialog();
 ```
 
-Dabei DLL_CPPCLI_LIB_API entweder als __declspec(dllexport) im Projekt `cppcli-lib` bzw. als __declspec(dllimport) im Projekt `cpp-desktopapp` definieren. 
+`DLL_CPPCLI_LIB_API` needs to be defined as either `__declspec(dllexport)` for project `cppcli-lib` or as `__declspec(dllimport)` for project `cpp-desktopapp`. 
 
 ```c++
 using namespace System;
@@ -328,14 +332,16 @@ bool ShowWinFormsDialog()
 }
 ```
 
-Im `cpp-desktopapp`-Projekt bei den Include-Verzeichnissen noch `../cppcli-lib` ergänzen. Den Header `#include "cppcli-lib.h"` inkludieren und anstelle des About-Dialogs die Form aufrufen.
-Damit es kein unresolved external gibt, im Projekt `cppcli-lib` unter Linker / General / Ignore Import Library = No setzen..
+We also need to add  `../cppcli-lib` as an additional include path to project `cpp-desktopapp`. Now we can include `#include "cppcli-lib.h"` und show the windows forms dialog instead of the 'About...`-Dialog.
+To avoid unresolved externals we also need to set *Linker / General / Ignore Import Library = No* in project `cppcli-lib`.
 
-## Aufrufen eines nativ implementierten Interface
+## Calling a natively implemented interface from `winforms-lib`
+
+Second interop scenario. Bottom-up-dependency.
 
 ### winforms-lib
 
-Neues Interface zum Umdrehen eines Textes:
+Add a new interface for a reversing a string:
 ```C#
 public interface IStringReverser
 {
@@ -343,10 +349,10 @@ public interface IStringReverser
 }
 ```
 
-WinForms-Dialog erhält eine TextBox und einen "Reverse"-Button, zudem eine Property vom Typ `IStringReverser`. Falls gesetzt, bewirkt ein Klick auf den "Reverse"-Button das Umdrehen des Textes in der Textbox:
+Add a property of type `IStringReverser` to the WinForms dialog and call it when the user clicks *Reverse* to reverse the text entered in a text box.
 
 ```C#
-  public IStringReverser StringReverser { get; set; }
+  public IStringReverser? StringReverser { get; set; }
 
   private void mButtonReverse_Click(object sender, EventArgs e)
   {
@@ -359,14 +365,13 @@ WinForms-Dialog erhält eine TextBox und einen "Reverse"-Button, zudem eine Prop
 
 ### cpp-desktopapp
 
-Neue Funktion 
+Add a new function implementing string reversion for native strings using classical c++:
 ```c++
 std::wstring ReverseString(const std::wstring &str);
 ```
 
 ### cppcli-lib
-Wrapper zur Erzeugung einer Implementierung von `IStringReverser` unter Verwendung der nativen Implementierung, die als 
-`std::function<std::wstring(const std::wstring&)>` hereingereicht wird:
+Add a wrapper for creating a `IStringReverser` implementation using a given native implementation passed as a `std::function<std::wstring(const std::wstring&)>`:
 
 ```C++
 ref class StringReverserWrapper : winforms_lib::IStringReverser
@@ -387,10 +392,10 @@ public:
 };
 ```
 
-Konstruktion einer Instanz davon und Zuweisung an den Dialog, bevor dieser geöffnet wird.
+Create a instance of this wrapper and assign to the WinForms dialog before showing it.
 
-## Hinzufügen eines MFC-Projekt als zweiter Zugang
+## Add a MFC project as a second top level project
 
-Neues Projekt `cpp-mfcapp` aus der Vorlage *MFC App* mit minimalen Konfigurationseinstellungen. 
-Hinzufügen einer Abhängigkeit auf 'cppcli-lib'. Bei den Include-Verzeichnissen noch `../cppcli-lib` ergänzen und `DLL_CPPCLI_LIB_API` setzen auf `__declspec(dllimport)`.
-Dann kann anstelle des *About*-Dialogs auch von MFC aus der Windows Forms-Dialog angezeigt werden.  
+Add a new MFC App project `cpp-mfcapp` using the projec template *MFC App* with minimal configuration (e.g. no toolbar, no documents, no restart manager, ...). 
+Add a dependency from `cpp-mfcapp` to `cppcli-lib`. Like done for `cpp-desktopapp`, add `../cppcli-lib` as include directory and define `DLL_CPPCLI_LIB_API` as `__declspec(dllimport)`.
+Now we can show the WinForms dialog like we did in `cpp-desktopapp` replacing the About-Dialog.
