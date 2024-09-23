@@ -83,6 +83,7 @@
       mButtonReverse.TabIndex = 4;
       mButtonReverse.Text = "Reverse";
       mButtonReverse.UseVisualStyleBackColor = true;
+      mButtonReverse.Click += mButtonReverse_Click;
       // 
       // Form1
       // 
