@@ -401,7 +401,10 @@ Add a dependency from `cpp-mfcapp` to `cppcli-lib`. Like done for `cpp-desktopap
 Now we can show the WinForms dialog like we did in `cpp-desktopapp` replacing the About-Dialog.
 
 
-## Working: MFC Control Embedding
+## Working: MFC Control Embedding with CWinFormsControl
+
+Add a C++/CLI project using MFC and also referencing WinForms. Once again, we provide a MFC / classical C++ interface to the outside. In particular we provider a MFC Frame class.
+Internally we want to use `CWinFormsControl` to embed a WinForms user control in our frame.
 
 ### Project setup
 Add a second C++/CLI project `cppcli-mfccontrols-lib` from template *CLR Class Library (.NET)*. Set *Use of MFC* to *Use MFC in s Shared DLL*. Add a dependency from 
@@ -425,15 +428,13 @@ Add a menu entry in `cpp-mfcapp` to open the frame with the view.
 Added a user control `winforms_lib::UserControl1` with an embedded ListView to `winforms-lib`.
 Added a reference from `cppcli-mfccontrols-lib` to `winforms-lib`
 
-Problem: `afxwinforms.h` verwendet 
+Problem: `afxwinforms.h` uses 
 
 ```C++
 #using <System.Windows.Forms.dll>
 ```
+which causes an compilation error
 
-(as it is done by `afxwinforms.h`) causes an compilation error
-
-Das führt zur Fehlermeldung 
 ```bash
  2>D:\dev\samples\dot.net\net8-cppcli\cppcli-mfccontrols-lib\cppcli-mfccontrols-lib.cpp(5,8): error C1107: could not find assembly 'System.Windows.Forms.dll': please specify the assembly search path using /AI or by setting the LIBPATH environment variable
  ```
@@ -447,9 +448,7 @@ Proposed solution was to add
 to the project file. This didn't fix it. Final solution:
 Search *System.Windows.Forms* in *External Dependencies* section of the project. Open properties for this item and copy the *Full Path*. Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*.
 
-Second problem: Now the program crashes when trying to open the embedding view.
-
-
+Now it compiles. But when running the application and creating the frame the program crashes.
 
 ## Misc
 
