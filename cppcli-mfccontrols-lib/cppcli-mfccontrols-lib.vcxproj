@@ -97,6 +97,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllexport)</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.8\ref\net8.0</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -108,6 +109,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllexport)</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.8\ref\net8.0</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -119,6 +121,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllexport)</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.8\ref\net8.0</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -130,6 +133,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllexport)</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.8\ref\net8.0</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -163,6 +167,9 @@
     <ProjectReference Include="..\winforms-lib\winforms-lib.csproj">
       <Project>{941047cb-3f0f-4e01-858a-15f034736114}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.8\ref\net8.0\System.Windows.Forms.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
