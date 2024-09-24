@@ -423,9 +423,30 @@ Add a menu entry in `cpp-mfcapp` to open the frame with the view.
 
 ### WinForms User Control
 Added a user control `winforms_lib::UserControl1` with an embedded ListView to `winforms-lib`.
+Added a reference from `cppcli-mfccontrols-lib` to `winforms-lib`
 
+Problem: `afxwinforms.h` verwendet 
+
+```C++
+#using <System.Windows.Forms.dll>
+```
+Das führt zur Fehlermeldung 
+```bash
+ 2>D:\dev\samples\dot.net\net8-cppcli\cppcli-mfccontrols-lib\cppcli-mfccontrols-lib.cpp(5,8): error C1107: could not find assembly 'System.Windows.Forms.dll': please specify the assembly search path using /AI or by setting the LIBPATH environment variable
+ ```
+
+Vorgeschlagene Lösung. In die Projektdatei aufnehmen von 
+```xml
+<ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+  </ItemGroup>
+```  
 
 ## Misc
 
 CMake [https://cmake.org/cmake/help/latest/prop_tgt/COMMON_LANGUAGE_RUNTIME.html]()  
 CMAKE_MFC_FLAG ?
+
+[https://learn.microsoft.com/en-us/dotnet/core/porting/cpp-cli]()
+[https://learn.microsoft.com/en-us/dotnet/core/porting/]()  
+[https://thebuildingcoder.typepad.com/blog/2024/04/migrating-from-net-48-to-net-core-8.html]()
