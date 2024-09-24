@@ -2,7 +2,7 @@
 
 ## Goals
 * Evauluation: Is .NET 8 interoperable with native code (e.g. classic C++ and C++/CLI).
-* Highlight different interop scenarios, which should be as close as possible to those from VISUM and VISSIM.
+* Highlight different interop scenarios, which should be as close as possible to those from productive code.
 
 ## Project Structure / Architecture
 
@@ -10,7 +10,7 @@
 
 ## Project Setup
 
-Try to use dotnet cli whenever possible. Don't use CMake for now.
+Try to use dotnet cli whenever possible. Don't use CMake for now to keep things simple.
 
 Create a new directory and make it current:
 ```bash
@@ -297,11 +297,11 @@ winforms-lib: `Debug`, `Release` x `AnyCPU`
 cpp-clilib: `Debug`, `Release` x `x64`, `Win32`  
 cpp-desktopapp: `Debug`, `Release` x `x64`, `Win32`  
 
-Solution: `Debug`, `Release` x `AnyCPU`, `x64`, `x86`   (`AnyCPU` mappt bei den cpp-Projekten auf `x64`)  
+Solution: `Debug`, `Release` x `AnyCPU`, `x64`, `x86`   (`AnyCPU` maps to  `x64` for the c++ projects)  
 
 ## Show a WinForms Dialog on behalf of project `cpp-desktopapp`
 
-Add a new Windows Forms Dialog (e.g. a Form) `Form1` with *Ok*- and *Cancel*-Button und `Cancel`-Button to project `winforms-lib`-Projekt. Make the buttons close the dialog (e.g. set Form Properties `buttonOk`, `buttonCancel` and `DialogResult`-Properties of buttons). 
+Add a new Windows Forms Dialog (e.g. a Form) `Form1` with *Ok*- and *Cancel*-Button to project `winforms-lib`. Make the buttons close the dialog (e.g. set Form Properties `buttonOk`, `buttonCancel` and `DialogResult`-Properties of the buttons). 
 
 ```C#
 namespace winforms_lib
@@ -341,7 +341,7 @@ Second interop scenario. Bottom-up-dependency.
 
 ### winforms-lib
 
-Add a new interface for a reversing a string:
+Add a new interface for reversing a string:
 ```C#
 public interface IStringReverser
 {
@@ -394,21 +394,24 @@ public:
 
 Create a instance of this wrapper and assign to the WinForms dialog before showing it.
 
-## Add a MFC project as a second top level project
+## Bring MFC into the game
+
+### Add a MFC project as a second top level project
 
 Add a new MFC App project `cpp-mfcapp` using the projec template *MFC App* with minimal configuration (e.g. no toolbar, no documents, no restart manager, ...). 
 Add a dependency from `cpp-mfcapp` to `cppcli-lib`. Like done for `cpp-desktopapp`, add `../cppcli-lib` as include directory and define `DLL_CPPCLI_LIB_API` as `__declspec(dllimport)`.
-Now we can show the WinForms dialog like we did in `cpp-desktopapp` replacing the About-Dialog.
 
+Now we can show the WinForms dialog the same way we did this in `cpp-desktopapp` (replacing the About-Dialog).
 
-## Working: MFC Control Embedding
+## Control interop: Use CWinFormsControl to embed a managed control in a MFC  CView
 
-Add a C++/CLI project using MFC and also referencing WinForms.
+We wnt to add a second C++/CLI interop project, this time using MFC. We want to provide a classical MFC CFrameWnd to the outside while internally embedding a managed control.
 
 ### Project setup
-Add a second C++/CLI project `cppcli-mfccontrols-lib` from template *CLR Class Library (.NET)*. Set *Use of MFC* to *Use MFC in s Shared DLL*. Add a dependency from 
-`cpp-mfcapp` to `cppcli-mfccontrols-lib`. Add `..\cppcli-mfccontrols-lib` as an include directory to `cpp-mfcapp`.
-Define DLL_CPPCLI_MFCCONTROLS_API both in `cppcli-mfccontrols-lib` and `cpp-mfcapp`. 
+Add a second C++/CLI project `cppcli-mfccontrols-lib` from template *CLR Class Library (.NET)*. Set *Use of MFC* to *Use MFC in s Shared DLL*. 
+Add a dependency from `cpp-mfcapp` to `cppcli-mfccontrols-lib`. 
+Add `..\cppcli-mfccontrols-lib` as an include directory to `cpp-mfcapp`.
+Define DLL_CPPCLI_MFCCONTROLS_API both in `cppcli-mfccontrols-lib` and `cpp-mfcapp` as `__decslspec(dllexport)` / `__declspec(dllimport)`. 
 To avoid unresolved externals we also need to set *Linker / General / Ignore Import Library = No* in project `cppcli-mfccontrols-lib`.
 
 ### Frame and View
@@ -419,13 +422,13 @@ Define a hierarchy of frame and view classes in `cppcli-mfccontrols-lib`:
   `CWindowsFormsControlHostingFrame`  classical C++
 `CView`   
    `CWindowsFormsControlHostingView` classical C++
-      `CWindowsFormsControlHostingViewImpl` yet classical C++, later using CMfcControl
+      `CWindowsFormsControlHostingViewImpl` yet classical C++, later using `CWinFormsControl`
 
 Add a menu entry in `cpp-mfcapp` to open the frame with the view.
 
 ### WinForms User Control
-Added a user control `winforms_lib::UserControl1` with an embedded ListView to `winforms-lib`.
-Added a reference from `cppcli-mfccontrols-lib` to `winforms-lib`
+Add a user control `winforms_lib::UserControl1` with an embedded ListView to `winforms-lib`.
+Add a reference from `cppcli-mfccontrols-lib` to `winforms-lib`
 
 Problem: `afxwinforms.h` uses 
 
@@ -447,20 +450,21 @@ Proposed solution was to add
 to the project file. This didn't fix it. Final solution:
 Search *System.Windows.Forms* in *External Dependencies* section of the project. Open properties for this item and copy the *Full Path*. Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*.
 
-Second problem: Now the program crashes when trying to open the embedding frame / view.
+Second problem: Now the program compiles, but crashes when trying to open the embedding frame / view.
 
 Anaylysing:
 * `cppcli-lib` also references System.Windows.Forms. But we didn't have to do anything special for Windows Forms there.
-* The problem seems to be the #using - Statement or other implementation of `CWinFormsControl`. 
-
+* The problem seems to be MFC, in concrete the #using - Statement or other implementation of `CWinFormsControl`. 
 
 ## Links
-
-CMake [https://cmake.org/cmake/help/latest/prop_tgt/COMMON_LANGUAGE_RUNTIME.html]()  
-CMAKE_MFC_FLAG ?
 
 [https://learn.microsoft.com/en-us/dotnet/core/porting/cpp-cli]()
 [https://learn.microsoft.com/en-us/dotnet/core/porting/]()  
 [https://thebuildingcoder.typepad.com/blog/2024/04/migrating-from-net-48-to-net-core-8.html]()
 [https://stackoverflow.com/questions/69927375/is-it-possible-to-use-cwinformscontrol-afxwinforms-h-in-a-c-cli-project-target]()  
 [https://github.com/dotnet/winforms/issues/11517]()  
+
+### CMake
+
+[https://cmake.org/cmake/help/latest/prop_tgt/COMMON_LANGUAGE_RUNTIME.html]()  
+CMAKE_MFC_FLAG ?
