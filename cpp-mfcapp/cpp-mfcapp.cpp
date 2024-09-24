@@ -23,7 +23,7 @@ using namespace std;
 // CMFCApp
 
 BEGIN_MESSAGE_MAP(CMFCApp, CWinApp)
-	ON_COMMAND(ID_APP_ABOUT, &CMFCApp::OnAppAbout)
+	ON_COMMAND(ID_TEST_OPENWINFORMSDIALOG, &CMFCApp::OnOpenWinFormsDialog)
 	ON_COMMAND(ID_TEST_OPENWINFORMSCONTROLEMBEDDINGVIEW, &CMFCApp::OnOpenWinformsControlEmbeddingView)
 END_MESSAGE_MAP()
 
@@ -152,7 +152,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
-void CMFCApp::OnAppAbout()
+void CMFCApp::OnOpenWinFormsDialog()
 {
 	auto stringReverser = [](const std::wstring& str) -> std::wstring {
 		wstring result = str;

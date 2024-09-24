@@ -6,6 +6,7 @@
 #define IDP_OLE_INIT_FAILED             100
 #define IDR_MAINFRAME                   128
 #define IDR_cppmfcappTYPE               130
+#define ID_TEST_OPENWINFORMSDIALOG 32770
 #define ID_TEST_OPENWINFORMSCONTROLEMBEDDINGVIEW 32771
 
 // Next default values for new objects

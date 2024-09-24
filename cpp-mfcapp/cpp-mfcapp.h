@@ -28,7 +28,7 @@ public:
 // Implementation
 
 public:
-	afx_msg void OnAppAbout();
+	afx_msg void OnOpenWinFormsDialog();
 	afx_msg void OnOpenWinformsControlEmbeddingView();
 	DECLARE_MESSAGE_MAP()
 };
