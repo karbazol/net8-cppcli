@@ -1,10 +1,30 @@
 #pragma once
 
+#include <afxwin.h>
+
 using namespace System;
 
-namespace cppclimfccontrolslib {
-	public ref class Class1
+namespace cppclimfccontrolslib
+{
+	class CWindowsFormsControlHostingView;
+	class CWindowsFormsControlHostingFrame : public CFrameWnd
 	{
-		// TODO: Add your methods for this class here.
+	public:
+		DLL_CPPCLI_MFCCONTROLS_LIB_API CWindowsFormsControlHostingFrame();
+
+	protected:
+		virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) override;
+
+
+	private:
+		CWindowsFormsControlHostingView* mView = nullptr;
+
 	};
+
+
+	class CWindowsFormsControlHostingView : public CView
+	{
+	};
+
+	CWindowsFormsControlHostingView* CreateWinFormsControlHostingView();
 }
