@@ -421,6 +421,8 @@ Define a hierarchy of frame and view classes in `cppcli-mfccontrols-lib`:
 
 Add a menu entry in `cpp-mfcapp` to open the frame with the view.
 
+### WinForms User Control
+Added a user control `winforms_lib::UserControl1` with an embedded ListView to `winforms-lib`.
 
 
 ## Misc
