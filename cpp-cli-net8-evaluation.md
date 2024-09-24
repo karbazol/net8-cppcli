@@ -430,17 +430,26 @@ Problem: `afxwinforms.h` verwendet
 ```C++
 #using <System.Windows.Forms.dll>
 ```
+
+(as it is done by `afxwinforms.h`) causes an compilation error
+
 Das führt zur Fehlermeldung 
 ```bash
  2>D:\dev\samples\dot.net\net8-cppcli\cppcli-mfccontrols-lib\cppcli-mfccontrols-lib.cpp(5,8): error C1107: could not find assembly 'System.Windows.Forms.dll': please specify the assembly search path using /AI or by setting the LIBPATH environment variable
  ```
 
-Vorgeschlagene Lösung. In die Projektdatei aufnehmen von 
+Proposed solution was to add 
 ```xml
 <ItemGroup>
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
   </ItemGroup>
 ```  
+to the project file. This didn't fix it. Final solution:
+Search *System.Windows.Forms* in *External Dependencies* section of the project. Open properties for this item and copy the *Full Path*. Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*.
+
+Second problem: Now the program crashes when trying to open the embedding view.
+
+
 
 ## Misc
 
@@ -450,3 +459,5 @@ CMAKE_MFC_FLAG ?
 [https://learn.microsoft.com/en-us/dotnet/core/porting/cpp-cli]()
 [https://learn.microsoft.com/en-us/dotnet/core/porting/]()  
 [https://thebuildingcoder.typepad.com/blog/2024/04/migrating-from-net-48-to-net-core-8.html]()
+[https://stackoverflow.com/questions/69927375/is-it-possible-to-use-cwinformscontrol-afxwinforms-h-in-a-c-cli-project-target]()  
+[https://github.com/dotnet/winforms/issues/11517]()  

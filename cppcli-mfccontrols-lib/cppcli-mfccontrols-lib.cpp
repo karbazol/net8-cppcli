@@ -1,11 +1,8 @@
 #include "pch.h"
 
 #include "cppcli-mfccontrols-lib.h"
-using namespace System::Windows::Forms;
-#using <System.Windows.Forms.dll>
-#pragma warning(push)  // afx disables some warnings
+
 #include <afxwinforms.h>
-#pragma warning(pop)
 
 using winforms_lib::UserControl1;
 namespace cppclimfccontrolslib
