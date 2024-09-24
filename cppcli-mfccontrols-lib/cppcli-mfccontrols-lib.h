@@ -2,8 +2,6 @@
 
 #include <afxwin.h>
 
-using namespace System;
-
 namespace cppclimfccontrolslib
 {
 	class CWindowsFormsControlHostingView;

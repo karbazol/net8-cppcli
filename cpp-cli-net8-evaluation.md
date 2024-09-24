@@ -399,3 +399,31 @@ Create a instance of this wrapper and assign to the WinForms dialog before showi
 Add a new MFC App project `cpp-mfcapp` using the projec template *MFC App* with minimal configuration (e.g. no toolbar, no documents, no restart manager, ...). 
 Add a dependency from `cpp-mfcapp` to `cppcli-lib`. Like done for `cpp-desktopapp`, add `../cppcli-lib` as include directory and define `DLL_CPPCLI_LIB_API` as `__declspec(dllimport)`.
 Now we can show the WinForms dialog like we did in `cpp-desktopapp` replacing the About-Dialog.
+
+
+## Working: MFC Control Embedding
+
+### Project setup
+Add a second C++/CLI project `cppcli-mfccontrols-lib` from template *CLR Class Library (.NET)*. Set *Use of MFC* to *Use MFC in s Shared DLL*. Add a dependency from 
+`cpp-mfcapp` to `cppcli-mfccontrols-lib`. Add `..\cppcli-mfccontrols-lib` as an include directory to `cpp-mfcapp`.
+Define DLL_CPPCLI_MFCCONTROLS_API both in `cppcli-mfccontrols-lib` and `cpp-mfcapp`. 
+To avoid unresolved externals we also need to set *Linker / General / Ignore Import Library = No* in project `cppcli-mfccontrols-lib`.
+
+### Frame and View
+
+Define a hierarchy of frame and view classes in `cppcli-mfccontrols-lib`:
+
+`CFrameWnd`
+  `CWindowsFormsControlHostingFrame`  classical C++
+`CView`   
+   `CWindowsFormsControlHostingView` classical C++
+      `CWindowsFormsControlHostingViewImpl` yet classical C++, later using CMfcControl
+
+Add a menu entry in `cpp-mfcapp` to open the frame with the view.
+
+
+
+## Misc
+
+CMake [https://cmake.org/cmake/help/latest/prop_tgt/COMMON_LANGUAGE_RUNTIME.html]()  
+CMAKE_MFC_FLAG ?

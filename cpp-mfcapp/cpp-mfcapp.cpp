@@ -9,6 +9,7 @@
 #include "cpp-mfcapp.h"
 #include "MainFrm.h"
 #include "cppcli-lib.h"
+#include "cppcli-mfccontrols-lib.h"
 #include <algorithm>
 #include <string>
 
@@ -23,6 +24,7 @@ using namespace std;
 
 BEGIN_MESSAGE_MAP(CMFCApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, &CMFCApp::OnAppAbout)
+	ON_COMMAND(ID_TEST_OPENWINFORMSCONTROLEMBEDDINGVIEW, &CMFCApp::OnOpenWinformsControlEmbeddingView)
 END_MESSAGE_MAP()
 
 
@@ -162,6 +164,12 @@ void CMFCApp::OnAppAbout()
 	};
 
 	ShowWinFormsDialog(stringReverser);
+}
+
+void CMFCApp::OnOpenWinformsControlEmbeddingView()
+{
+	CFrameWnd* frameWnd = new cppclimfccontrolslib::CWindowsFormsControlHostingFrame();
+	frameWnd->Create(nullptr, L"", WS_VISIBLE | WS_OVERLAPPEDWINDOW, CRect(50, 50, 300, 300), m_pMainWnd);
 }
 
 // CMFCApp message handlers
