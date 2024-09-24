@@ -1,4 +1,4 @@
-SDK Version ist 8.0.302
+.NET SDK Version is 8.0.302
 
 ## Goals
 * Evauluation: Is .NET 8 interoperable with native code (e.g. classic C++ and C++/CLI).
@@ -401,10 +401,9 @@ Add a dependency from `cpp-mfcapp` to `cppcli-lib`. Like done for `cpp-desktopap
 Now we can show the WinForms dialog like we did in `cpp-desktopapp` replacing the About-Dialog.
 
 
-## Working: MFC Control Embedding with CWinFormsControl
+## Working: MFC Control Embedding
 
-Add a C++/CLI project using MFC and also referencing WinForms. Once again, we provide a MFC / classical C++ interface to the outside. In particular we provider a MFC Frame class.
-Internally we want to use `CWinFormsControl` to embed a WinForms user control in our frame.
+Add a C++/CLI project using MFC and also referencing WinForms.
 
 ### Project setup
 Add a second C++/CLI project `cppcli-mfccontrols-lib` from template *CLR Class Library (.NET)*. Set *Use of MFC* to *Use MFC in s Shared DLL*. Add a dependency from 
@@ -448,9 +447,14 @@ Proposed solution was to add
 to the project file. This didn't fix it. Final solution:
 Search *System.Windows.Forms* in *External Dependencies* section of the project. Open properties for this item and copy the *Full Path*. Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*.
 
-Now it compiles. But when running the application and creating the frame the program crashes.
+Second problem: Now the program crashes when trying to open the embedding frame / view.
 
-## Misc
+Anaylysing:
+* `cppcli-lib` also references System.Windows.Forms. But we didn't have to do anything special for Windows Forms there.
+* The problem seems to be the #using - Statement or other implementation of `CWinFormsControl`. 
+
+
+## Links
 
 CMake [https://cmake.org/cmake/help/latest/prop_tgt/COMMON_LANGUAGE_RUNTIME.html]()  
 CMAKE_MFC_FLAG ?
