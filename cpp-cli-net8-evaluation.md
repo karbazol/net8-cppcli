@@ -451,10 +451,8 @@ to the project file. This didn't fix it. Final solution:
 Search *System.Windows.Forms* in *External Dependencies* section of the project. Open properties for this item and copy the *Full Path*. Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*.
 
 Second problem: Now the program compiles, but crashes when trying to open the embedding frame / view.
+Solution: Added `WinFormsControlSiteSafe.hpp` from our productive code base and derived view from `CWinFormsHostWnd_NoOleException`. Also had to copy and paste the base class implementation of `CreateOrLoad`.
 
-Anaylysing:
-* `cppcli-lib` also references System.Windows.Forms. But we didn't have to do anything special for Windows Forms there.
-* The problem seems to be MFC, in concrete the #using - Statement or other implementation of `CWinFormsControl`. 
 
 ## Links
 

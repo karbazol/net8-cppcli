@@ -3,6 +3,7 @@
 #include "cppcli-mfccontrols-lib.h"
 
 #include <afxwinforms.h>
+#include "WinFormsControlSiteSafe.hpp"
 
 using winforms_lib::UserControl1;
 namespace cppclimfccontrolslib
@@ -32,7 +33,7 @@ namespace cppclimfccontrolslib
 
 
 
-  class CWindowsFormsControlHostingViewImpl : public CWindowsFormsControlHostingView
+  class CWindowsFormsControlHostingViewImpl : public CWinFormsHostWnd_NoOleException<CWindowsFormsControlHostingView>
   {
   public:
     CWindowsFormsControlHostingViewImpl() = default;
