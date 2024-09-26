@@ -94,6 +94,7 @@
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_LIB_API=__declspec(dllimport);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllimport)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\cppcli-mfccontrols-lib;..\cppcli-lib</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -117,6 +118,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_LIB_API=__declspec(dllimport);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllimport)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\cppcli-mfccontrols-lib;..\cppcli-lib</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,6 +144,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_LIB_API=__declspec(dllimport);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllimport)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\cppcli-mfccontrols-lib;..\cppcli-lib</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,6 +172,7 @@
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions);DLL_CPPCLI_LIB_API=__declspec(dllimport);DLL_CPPCLI_MFCCONTROLS_LIB_API=__declspec(dllimport)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\cppcli-mfccontrols-lib;..\cppcli-lib</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
