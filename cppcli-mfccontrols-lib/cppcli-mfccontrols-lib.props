@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ExtractUsingPath"
+			  AfterTargets="ResolveAssemblyReferences"
+			  Condition="'$(CLRSupport)'=='NetCore'">
+    <ItemGroup>
+      <RefList Include="@(ReferencePath->'%(RootDir)%(Directory)')" Condition="'%(ReferencePath.NuGetPackageId)'=='Microsoft.WindowsDesktop.App.Ref'  And 
+                                   '%(ReferencePath.FileName)'=='System.Windows.Forms'"></RefList>
+      <ClCompile>
+        <AdditionalUsingDirectories>@(RefList);%(ClCompile.AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      </ClCompile>
+    </ItemGroup>
+  </Target>
+</Project>
