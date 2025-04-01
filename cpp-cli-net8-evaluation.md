@@ -221,6 +221,7 @@ to the project file. This didn't fix it. Another solution is
 * search for *System.Windows.Forms* in *External Dependencies* section of the project  
 * Open properties for this item and copy the *Full Path*  
 * Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*  
+
 This is more a hack than a solution, especially because the absolute pathes may change. 
 
 *karbazol* found a much better solution to this:
@@ -260,8 +261,11 @@ We may also want to add
 ```xml
     <UseWindowsForms>true</UseWindowsForms>
 ```
-
-to the "Globals" PropertyGroup, but it is not sure if this is absolutely required for compilation.
+to the "Globals" PropertyGroup, but it is not sure if this is absolutely required for compilation. The same is true for the aforementioned
+```xml
+ <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+```
+Both entries are present in the the `cppcli-mfccontrols-lib` project file, but not in `cppcli-lib` project file. `cppcli-lib` seems not to need them to open up the Windows Forms dialog. Removing them from `cppcli-mfccontrols-lib` project file does not break anything.
 
 
 Second problem: Now the program compiles, but crashes when trying to open the embedding frame / view.

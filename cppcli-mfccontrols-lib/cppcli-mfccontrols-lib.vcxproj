@@ -27,7 +27,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>net8.0</TargetFramework>
     <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
-    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -168,15 +167,12 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\winforms-lib\winforms-lib.csproj">
       <Project>{941047cb-3f0f-4e01-858a-15f034736114}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="cppcli-mfccontrols-lib.props" />
-  <ImportGroup Label="ExtensionTargets">
+	<ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>
