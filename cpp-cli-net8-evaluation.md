@@ -210,14 +210,59 @@ which causes an compilation error
  2>D:\dev\samples\dot.net\net8-cppcli\cppcli-mfccontrols-lib\cppcli-mfccontrols-lib.cpp(5,8): error C1107: could not find assembly 'System.Windows.Forms.dll': please specify the assembly search path using /AI or by setting the LIBPATH environment variable
  ```
 
+
 Proposed solution was to add 
 ```xml
 <ItemGroup>
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
   </ItemGroup>
 ```  
-to the project file. This didn't fix it. Final solution:
-Search *System.Windows.Forms* in *External Dependencies* section of the project. Open properties for this item and copy the *Full Path*. Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*.
+to the project file. This didn't fix it. Another solution is  
+* search for *System.Windows.Forms* in *External Dependencies* section of the project  
+* Open properties for this item and copy the *Full Path*  
+* Add this path to *Configuration Properties|C/C++|General|Additional #using Directories*  
+This is more a hack than a solution, especially because the absolute pathes may change. 
+
+*karbazol* found a much better solution to this:
+
+Create a new property sheet `cppcli-mfccontrols-lib.props` with the following content:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ExtractUsingPath"
+			  AfterTargets="ResolveAssemblyReferences"
+			  Condition="'$(CLRSupport)'=='NetCore'">
+    <ItemGroup>
+      <RefList Include="@(ReferencePath->'%(RootDir)%(Directory)')" Condition="'%(ReferencePath.NuGetPackageId)'=='Microsoft.WindowsDesktop.App.Ref'  And 
+                                   '%(ReferencePath.FileName)'=='System.Windows.Forms'"></RefList>
+      <ClCompile>
+        <AdditionalUsingDirectories>@(RefList);%(ClCompile.AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      </ClCompile>
+    </ItemGroup>
+  </Target>
+</Project>
+```
+
+In the project file add a ItemDefinitionGroup like this ...
+```xml
+  <ItemDefinitionGroup>
+    <ClCompile>
+        <AdditionalUsingDirectories>$(ReferencePath);%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+```
+and import the property sheet ...
+```xml
+  <Import Project="cppcli-mfccontrols-lib.props" />
+```
+
+We may also want to add
+```xml
+    <UseWindowsForms>true</UseWindowsForms>
+```
+
+to the "Globals" PropertyGroup, but it is not sure if this is absolutely required for compilation.
+
 
 Second problem: Now the program compiles, but crashes when trying to open the embedding frame / view.
 Solution: Added `WinFormsControlSiteSafe.hpp` from productive code base and derived `CWindowsFormsControlHostingViewImpl` from `CWinFormsHostWnd_NoOleException`. Also had to copy and paste the base class implementation of `CreateOrLoad` to `CWinFormsHostWnd_NoOleException`.
