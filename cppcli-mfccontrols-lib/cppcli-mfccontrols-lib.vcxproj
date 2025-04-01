@@ -36,6 +36,7 @@
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <VCToolsVersion>14.40.33807</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -44,6 +45,7 @@
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <VCToolsVersion>14.40.33807</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -52,6 +54,7 @@
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <VCToolsVersion>14.40.33807</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -60,6 +63,7 @@
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <VCToolsVersion>14.40.33807</VCToolsVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -141,7 +145,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-        <AdditionalUsingDirectories>$(ReferencePath);%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <AdditionalUsingDirectories>$(ReferencePath);%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -173,6 +177,6 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="cppcli-mfccontrols-lib.props" />
-	<ImportGroup Label="ExtensionTargets">
+  <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>
